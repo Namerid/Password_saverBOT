@@ -364,7 +364,7 @@ def choose(call):
 				password_name_list.close()
 
 				add_journal = open('work_folder/{.id}/add_journal.txt'.format(call.from_user),'r')
-				num = int(add_journal.read()[-1])
+				num = int(add_journal.readlines()[-1])
 				add_journal.close()
 
 				text1 = text[0][0:-1]
@@ -566,13 +566,14 @@ def choose(call):
 				bot.send_message(call.message.chat.id, 'Выберите пароль:', reply_markup = markup)
 
 		if call.data in callback_list and len(call.data) == 2:
-			os.remove(r'work_folder/{.id}/passwords/password_{}.txt'.format(call.from_user, call.data[0]))
+			
+			os.remove(r'work_folder/{.id}/passwords/password_{}.txt'.format(call.from_user, call.data[0:-1]))
 
 			password_name_list = open('work_folder/{.id}/password_name_list.txt'.format(call.from_user), 'r')
 			password_list = eval(password_name_list.read())
 			password_name_list.close()
 
-			password_list.pop(int(call.data[0]))
+			password_list.pop(int(call.data[0:-1]))
 
 			password_name_list = open('work_folder/{.id}/password_name_list.txt'.format(call.from_user), 'w')
 			password_name_list.write (str(password_list))
@@ -595,10 +596,9 @@ def choose(call):
 
 			bot.delete_message(chat_id=call.message.chat.id, message_id= call.message.message_id)
 
-
-			if num_count >= 1 and num_count != int(call.data[0]):
+			if num_count >= 1 and num_count != int(call.data[0:-1]):
 				
-				for i in range(int(call.data[0]), num_count):
+				for i in range(int(call.data[0:-1]), num_count):
 					
 					file_read = open ('work_folder/{.id}/passwords/password_{}.txt'.format(call.from_user, i+1), 'r')
 					text = file_read.read()
