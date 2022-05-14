@@ -37,7 +37,7 @@ def start(message):
 
 	
 	add_journal = open('work_folder/{.id}/add_journal.txt'.format(message.from_user),'r')
-	num = add_journal.read()[-1]
+	num = add_journal.readlines()[-1].rstrip ()
 	add_journal.close()
 	add_journal = open('work_folder/{.id}/add_journal.txt'.format(message.from_user),'w')
 	add_journal.write('\n\n\n' + num)
